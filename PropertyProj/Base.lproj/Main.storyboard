@@ -150,21 +150,21 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="215" id="Ar4-Ou-YJC"/>
                                                 </constraints>
-                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="htk-Xb-XOZ">
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="htk-Xb-XOZ">
                                                     <size key="itemSize" width="594" height="222"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="4Fp-Q6-LhZ" customClass="DetailCollectionViewCell" customModule="CommunicateWithBackend" customModuleProvider="target">
-                                                        <rect key="frame" x="3" y="0.0" width="594" height="222"/>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="4Fp-Q6-LhZ" customClass="DetailCollectionViewCell" customModule="CommunicateWithBackend" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="-3.5" width="594" height="222"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="594" height="222"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NZJ-n6-hih">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="NZJ-n6-hih">
                                                                     <rect key="frame" x="0.0" y="0.0" width="594" height="222"/>
                                                                 </imageView>
                                                             </subviews>
@@ -182,6 +182,10 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="n1u-Le-wPx" id="gZh-tQ-ewh"/>
+                                                    <outlet property="delegate" destination="n1u-Le-wPx" id="E1T-5A-SMT"/>
+                                                </connections>
                                             </collectionView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="property name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o34-hT-C0S">
                                                 <rect key="frame" x="8" y="223" width="584" height="20"/>
@@ -197,8 +201,8 @@
                                                     </mask>
                                                 </variation>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="k6T-ss-TZa">
-                                                <rect key="frame" x="8" y="250" width="584" height="68"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="k6T-ss-TZa">
+                                                <rect key="frame" x="8" y="250" width="584" height="51"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u8D-GX-8L9">
                                                         <rect key="frame" x="0.0" y="0.0" width="584" height="18"/>
@@ -206,8 +210,8 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, laborum. Nam liber te conscient to factor tum poen legum odioque civiuda." translatesAutoresizingMaskIntoConstraints="NO" id="gUy-BF-igx">
-                                                        <rect key="frame" x="0.0" y="18" width="584" height="50"/>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUy-BF-igx">
+                                                        <rect key="frame" x="0.0" y="18" width="584" height="33"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -216,17 +220,16 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kTv-8J-8fi">
-                                                <rect key="frame" x="8" y="326" width="584" height="85"/>
+                                                <rect key="frame" x="8" y="326" width="584" height="51"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8v-aM-hwp">
                                                         <rect key="frame" x="0.0" y="0.0" width="584" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="D3f-KD-OTq">
-                                                        <rect key="frame" x="0.0" y="18" width="584" height="67"/>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="D3f-KD-OTq">
+                                                        <rect key="frame" x="0.0" y="18" width="584" height="33"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</string>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
@@ -307,4 +310,7 @@
             <point key="canvasLocation" x="1050" y="747"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="placeholder" width="300" height="300"/>
+    </resources>
 </document>

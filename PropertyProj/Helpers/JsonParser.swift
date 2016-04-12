@@ -76,17 +76,25 @@ class JsonParser {
 
     }
     
-    static func packageSpecificProperty(property:JSON) {
+    static func packageSpecificProperty(property:JSON) -> PropertyDetails{
         
         let images = parseImages(property["images"].array ?? [])
+        
+        let city = self.parseCity(property["city"])
+        let hostelId = property["id"].string
+
         let address1 = property["address1"].string
         let address2 = property["address2"].string
         
         let description = property["description"].string
         let directions  = property["directions"].string
         
+        let fullAddress = (address1 ?? " ") + (address2 ?? " ")
         
         
+        let propertyDetails = PropertyDetails(city: city, description: description!, directions: directions!, images: images , address: fullAddress)
+       
+        return propertyDetails
         
     }
     

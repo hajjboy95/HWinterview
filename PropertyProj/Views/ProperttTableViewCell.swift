@@ -22,7 +22,7 @@ class PropertyTableViewCell: UITableViewCell {
             titleLabel.text = cellInfo!.name
             hostelTypeLabel.text = cellInfo!.type
             lowestPriceLabel.text = "100"
-            overallRatingLabel.text = "\(cellInfo!.overallRating)"
+            overallRatingLabel.text = "\(cellInfo!.overallRating ?? 0)"
         }
     }
     

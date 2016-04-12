@@ -105,12 +105,12 @@ class PropertyApi {
             
             if let data = NSData(contentsOfURL: url!) {
                 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
+//                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
                     let img = UIImage(data: data)
                     completion(image: img, error: error)
                     
-                })
+//                })
             }
         })
         

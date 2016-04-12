@@ -8,7 +8,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var propertyName: UILabel!
@@ -19,27 +19,31 @@ class DetailViewController: UIViewController {
     
     var propertyId:String!
     var cityInfo:City?
-    
-    var propertyImages = []
+    var currentPropertyDetails:PropertyDetails?
+    var propertyImages:[Image]?
+    var cache:NSCache!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateScrollViewSize()
-        updateUI()
-        // bug in sdk requires this
+        self.navigationController?.navigationBar.translucent = false
+        self.title = cityInfo?.cityName
+        cache = NSCache()
         
         
-        
-
-             propertyApi.getPropertyData(.SpecificProperty, url:"/properties/\(propertyId)", completion:{ (city, error) -> Void in
+        propertyApi.getPropertyData(.SpecificProperty, url:"/properties/\(propertyId)", completion:{ (city, error) -> Void in
             
             if error != nil {
                 print("ERROR HAS OCCURED \(error)")
             } else {
-//                print(city)
-//                print( JsonParser.packageSpecificProperty(city) )
+                self.currentPropertyDetails =  JsonParser.packageSpecificProperty(city)
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    self.propertyImages = (self.currentPropertyDetails?.images)!
+                    self.updateUI()
+                    self.collectionView.reloadData()
+                    
+                })
                 
-
                 
             }
             
@@ -50,14 +54,16 @@ class DetailViewController: UIViewController {
     
     
     func updateUI() {
-        self.navigationController?.navigationBar.translucent = false
-
-        self.propertyName.text = (cityInfo?.cityName ?? "Unknown City") +  " , " + (cityInfo?.country ?? "Unknown country")
-        self.addressTextView.text = "JKHADUHASUDHA DUIHADISUHDSAUI J HASJDN IASD NASDJA NSDNAJKSDNnasJNJKASNDJN   nasndkSDKKDL NAS "
         
+        self.propertyName.text = (cityInfo?.cityName ?? "Unknown City") +  " , " + (cityInfo?.country ?? "Unknown country")
+        self.addressTextView.text = currentPropertyDetails?.address
+        self.descriptionTextView.text = currentPropertyDetails?.propertyDescription
+        
+        
+        self.updateScrollViewSize()
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -77,8 +83,8 @@ class DetailViewController: UIViewController {
                 }
             }
         }
-        self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width, height: contentSize.height )
-
+        self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width, height: contentSize.height)
+        
     }
 }
 
@@ -86,12 +92,39 @@ extension DetailViewController : UICollectionViewDataSource
 {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.propertyImages.count ?? 0
+        print("self.propertyImage.count = " , self.propertyImages?.count)
+        return self.propertyImages?.count ?? 0
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! DetailCollectionViewCell
-        let image = self.propertyImages[indexPath.row]
-        cell.propertyImageView.image = image as? UIImage
+        let img = self.propertyImages![indexPath.row]
+        
+        let imgUrl = img.fullUrl()
+        
+        
+        
+        if let image  = (self.cache.objectForKey(imgUrl) as? UIImage){
+            cell.propertyImageView.image = image
+            
+        } else
+        {
+            cell.propertyImageView.image = UIImage(named: "placeholder")
+            propertyApi.downloadPropertyImage(imgUrl , completion: {  (image, error) -> Void in
+                
+                if error != nil {
+                    print(error)
+                } else {
+                    let updateCell  = collectionView.cellForItemAtIndexPath(indexPath) as? DetailCollectionViewCell
+                    // make ui update on main thread
+                    dispatch_async(dispatch_get_main_queue(), {
+                        updateCell?.propertyImageView?.image = image
+                    })
+
+                    self.cache.setObject(image!, forKey: imgUrl)
+                }
+            })
+        }
         
         return cell
     }
@@ -116,6 +149,5 @@ extension DetailViewController : UICollectionViewDelegateFlowLayout
         
         return UIEdgeInsets(top: 10.0, left: 6.0, bottom: 10.0, right: 6.0)
     }
-    
     
 }

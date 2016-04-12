@@ -34,12 +34,12 @@ class PropertyTableViewController: UITableViewController {
                 print("ERROR HAS OCCURED \(error)")
             } else {
                 self.propertyTableDataSource =  JsonParser.packageHostel(cities)
-
+                
                 dispatch_async(dispatch_get_main_queue(), {
                     self.tableView.reloadData()
                     print("reloading data")
                 })
-               
+                
             }
             
         })
@@ -49,7 +49,7 @@ class PropertyTableViewController: UITableViewController {
         
         propertyTableDataSource = [Hostel]()
         cache = NSCache()
-      
+        
         
     }
     
@@ -69,7 +69,7 @@ class PropertyTableViewController: UITableViewController {
             
             let detailVC  = segue.destinationViewController as! DetailViewController
             let indexPath = tableView.indexPathForSelectedRow
-            
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath!) as! PropertyTableViewCell
             let info = propertyTableDataSource[indexPath!.row]
             
             detailVC.propertyId = info.hosteId
@@ -106,16 +106,16 @@ extension PropertyTableViewController {
     
     
     /**
-     This functoin displays the cells in the tableView .
+     This function displays the cells in the tableView .
      
      Checks if the image is present in the NSCache variable first.
      the key is the dataTaken varaible . if present don't make a netweok request and display the
-     image within the cache 
+     image within the cache
      
      if its not present in the cache call the flickr api object to download the image with the given
      url and update the ui when the image is recieved .
      
-     as the image is being downlaoded from the server the user cannot click into the cell and a 
+     as the image is being downlaoded from the server the user cannot click into the cell and a
      placeholder is displayed in the meantime
      
      
@@ -133,14 +133,13 @@ extension PropertyTableViewController {
         
         
         // check if the image is already present in the cache
-        if let img = cache.objectForKey(uniqueIdForHostel) {
+        if let img = cache.objectForKey(uniqueIdForHostel!) {
             cell.mainImageView?.image = img as? UIImage
         }
             
             // set placeholder image , make network request then set image in cache
         else {
             cell.mainImageView?.image = UIImage(named: "placeholder")
-            cell.userInteractionEnabled = false
             
             propertyApi.downloadPropertyImage(imgUrl , completion: {  (image, error) -> Void in
                 
@@ -149,14 +148,15 @@ extension PropertyTableViewController {
                     print(error)
                 } else {
                     let updateCell  = tableView.cellForRowAtIndexPath(indexPath) as? PropertyTableViewCell
-                    updateCell?.mainImageView?.image = image
-                    cell.userInteractionEnabled = true
+                    dispatch_async(dispatch_get_main_queue(), {
+                        updateCell?.mainImageView?.image = image
+                    })
                     
-                    self.cache.setObject(image!, forKey: uniqueIdForHostel)
+                    self.cache.setObject(image!, forKey: uniqueIdForHostel!)
                 }
             })
         }
-
+        
         
         
         return cell
@@ -167,37 +167,4 @@ extension PropertyTableViewController {
     }
     
 }
-
-
-
-//        cell.cellInfo = cellInfo
-//
-//        let date_taken = cellInfo.date_taken
-//        let media = cellInfo.media
-//
-//        // check if the image is already present in the cache
-//        if let img = cache.objectForKey(date_taken!) {
-//            cell.mainImageView?.image = img as? UIImage
-//        }
-//
-//            // set placeholder image , make network request then set image in cache
-//        else {
-//            cell.mainImageView?.image = UIImage(named: "placeholder")
-//            cell.userInteractionEnabled = false
-//
-//            propertyApi.downloadPropertyImage(media! , completion: {  (image, error) -> Void in
-//
-//                print("media! = \(media!)")
-//                if error != nil {
-//                    print(error)
-//                } else {
-//                    let updateCell  = tableView.cellForRowAtIndexPath(indexPath) as? PropertyTableViewCell
-//                    updateCell?.mainImageView?.image = image
-//                    cell.userInteractionEnabled = true
-//
-//                    self.cache.setObject(image!, forKey: date_taken!)
-//                }
-//            })
-//        }
-
 
