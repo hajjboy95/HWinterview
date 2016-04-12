@@ -60,7 +60,7 @@ class DetailViewController: UIViewController {
         self.descriptionTextView.text = currentPropertyDetails?.propertyDescription
         
         
-        self.updateScrollViewSize()
+//        self.updateScrollViewSize()
         
     }
     
