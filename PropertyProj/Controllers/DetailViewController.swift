@@ -83,7 +83,7 @@ class DetailViewController: UIViewController {
                 }
             }
         }
-        self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width, height: contentSize.height)
+        self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width, height: contentSize.height+50)
         
     }
 }
