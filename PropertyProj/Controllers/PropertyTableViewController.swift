@@ -11,7 +11,6 @@ class PropertyTableViewController: UITableViewController {
     
     
     var propertyTableDataSource :[Hostel]!
-    var propertyApi:PropertyApi!
     var cache:NSCache!
     var task: NSURLSessionDownloadTask!
     var session: NSURLSession!
@@ -29,7 +28,7 @@ class PropertyTableViewController: UITableViewController {
         
         
         
-        propertyApi.getPropertyData("/cities/1530/properties/", completion:{ (cities, error) -> Void in
+        propertyApi.getPropertyData(.ListOfProperties,url:"/cities/1530/properties/", completion:{ (cities, error) -> Void in
             
             if error != nil {
                 print("ERROR HAS OCCURED \(error)")
@@ -49,7 +48,6 @@ class PropertyTableViewController: UITableViewController {
     private func intialiseObjects(){
         
         propertyTableDataSource = [Hostel]()
-        propertyApi = PropertyApi()
         cache = NSCache()
       
         
@@ -70,11 +68,14 @@ class PropertyTableViewController: UITableViewController {
         case Constants.PropertyTableViewToDetailViewSegue:
             
             let detailVC  = segue.destinationViewController as! DetailViewController
-            let indexPath = sender as! NSIndexPath
+            let indexPath = tableView.indexPathForSelectedRow
             
-            let info = propertyTableDataSource[indexPath.row]
-
+            let info = propertyTableDataSource[indexPath!.row]
             
+            detailVC.propertyId = info.hosteId
+            detailVC.cityInfo  = info.city
+            print("indexpath pressed = \(indexPath!.row)")
+            print(" hostel id = \(info.hosteId)")
             
             
         default:
@@ -89,7 +90,7 @@ class PropertyTableViewController: UITableViewController {
 extension PropertyTableViewController  {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier(Constants.PropertyMainTableViewCellIdentifier, sender: indexPath)
+        performSegueWithIdentifier(Constants.PropertyTableViewToDetailViewSegue, sender: indexPath)
         
         
     }
@@ -125,6 +126,38 @@ extension PropertyTableViewController {
         let hostel = propertyTableDataSource[indexPath.row]
         let uniqueIdForHostel = hostel.hosteId
         cell.cellInfo = hostel
+        var imgUrl = ""
+        if let firstImg = hostel.images.first {
+            imgUrl = firstImg.prefix + firstImg.suffix
+        }
+        
+        
+        // check if the image is already present in the cache
+        if let img = cache.objectForKey(uniqueIdForHostel) {
+            cell.mainImageView?.image = img as? UIImage
+        }
+            
+            // set placeholder image , make network request then set image in cache
+        else {
+            cell.mainImageView?.image = UIImage(named: "placeholder")
+            cell.userInteractionEnabled = false
+            
+            propertyApi.downloadPropertyImage(imgUrl , completion: {  (image, error) -> Void in
+                
+                print("media! = \(imgUrl)")
+                if error != nil {
+                    print(error)
+                } else {
+                    let updateCell  = tableView.cellForRowAtIndexPath(indexPath) as? PropertyTableViewCell
+                    updateCell?.mainImageView?.image = image
+                    cell.userInteractionEnabled = true
+                    
+                    self.cache.setObject(image!, forKey: uniqueIdForHostel)
+                }
+            })
+        }
+
+        
         
         return cell
     }

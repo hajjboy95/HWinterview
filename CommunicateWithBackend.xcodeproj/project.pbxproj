@@ -16,7 +16,6 @@
 		EC15CC281CBA7A4500467671 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC141CBA7A4500467671 /* Constants.swift */; };
 		EC15CC291CBA7A4500467671 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC161CBA7A4500467671 /* DetailViewController.swift */; };
 		EC15CC2A1CBA7A4500467671 /* PropertyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC171CBA7A4500467671 /* PropertyTableViewController.swift */; };
-		EC15CC2B1CBA7A4500467671 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC15CC181CBA7A4500467671 /* Info.plist */; };
 		EC15CC2C1CBA7A4500467671 /* Hostel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC1A1CBA7A4500467671 /* Hostel.swift */; };
 		EC15CC2D1CBA7A4500467671 /* PropertyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC1C1CBA7A4500467671 /* PropertyApi.swift */; };
 		EC15CC2E1CBA7A4500467671 /* ProperttTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC1E1CBA7A4500467671 /* ProperttTableViewCell.swift */; };
@@ -24,6 +23,7 @@
 		EC15CC301CBA7A4500467671 /* PropertyProjTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15CC211CBA7A4500467671 /* PropertyProjTests.swift */; };
 		EC175AE21CBBFD0000D0A3EA /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC175AE11CBBFD0000D0A3EA /* JsonParser.swift */; };
 		EC175AE61CBC0ACE00D0A3EA /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC175AE51CBC0ACE00D0A3EA /* SwiftyJSON.swift */; };
+		EC71B83B1CBCEB6200CC3D7E /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC71B83A1CBCEB6200CC3D7E /* DetailCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +64,7 @@
 		EC15CC211CBA7A4500467671 /* PropertyProjTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyProjTests.swift; sourceTree = "<group>"; };
 		EC175AE11CBBFD0000D0A3EA /* JsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		EC175AE51CBC0ACE00D0A3EA /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		EC71B83A1CBCEB6200CC3D7E /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				EC15CC1E1CBA7A4500467671 /* ProperttTableViewCell.swift */,
+				EC71B83A1CBCEB6200CC3D7E /* DetailCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -261,7 +263,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Ismail El-Habbash";
 				TargetAttributes = {
 					EC12F2B11C9AE4E40049028B = {
@@ -306,7 +308,6 @@
 				EC15CC251CBA7A4500467671 /* Assets.xcassets in Resources */,
 				EC15CC2F1CBA7A4500467671 /* Info.plist in Resources */,
 				EC15CC221CBA7A4500467671 /* Info.plist in Resources */,
-				EC15CC2B1CBA7A4500467671 /* Info.plist in Resources */,
 				EC15CC271CBA7A4500467671 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,6 +344,7 @@
 				EC15CC281CBA7A4500467671 /* Constants.swift in Sources */,
 				EC15CC2D1CBA7A4500467671 /* PropertyApi.swift in Sources */,
 				EC15CC291CBA7A4500467671 /* DetailViewController.swift in Sources */,
+				EC71B83B1CBCEB6200CC3D7E /* DetailCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

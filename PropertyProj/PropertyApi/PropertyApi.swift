@@ -12,6 +12,11 @@ import UIKit
 typealias propertyResult = (dic:JSON, error:NSError? ) -> Void
 typealias propertyImgResult = (image: UIImage? , error:NSError?) -> Void
 
+let propertyApi = PropertyApi()
+
+enum TypeOfRequest{
+    case ListOfProperties , SpecificProperty
+}
 
 class PropertyApi {
     
@@ -35,7 +40,7 @@ class PropertyApi {
      
      - parameter completion: a callback that sends the flkickr info to the controller , callback with params of type NSDictionary , NSError
      */
-    func getPropertyData(url:String,completion: propertyResult ) {
+    func getPropertyData(typeOfRequest:TypeOfRequest , url:String,completion: propertyResult ) {
         
         // Json retured from this is sometimes valid and othertimes invalid
         let urlLink = NSURL(string: rootUrl + url)!
@@ -47,12 +52,18 @@ class PropertyApi {
             if let location = location {
                 let data = NSData(contentsOfURL: location)
                 
+         
                 
                 do {
-                    let dic = try NSJSONSerialization.JSONObjectWithData(data!, options: [.MutableContainers]) as? NSDictionary
+                    let dic = try NSJSONSerialization.JSONObjectWithData(data!, options: [.AllowFragments]) as? NSDictionary
                     
                     if let dicVal = dic {
-                        let items = dicVal["properties"]
+                        var items:AnyObject?
+                        if typeOfRequest == .ListOfProperties {
+                             items = dicVal["properties"]
+                        } else if typeOfRequest == .SpecificProperty {
+                            items = dicVal
+                        }
                         
                         let swiftyJson = JSON(items!)
                         
@@ -66,6 +77,8 @@ class PropertyApi {
                     
                     
                 } catch  let error as NSError {
+                    print("____ \(#line) function = \(#function) file = \(#file)")
+                    print("ERROR")
                     completion(dic: nil, error: error)
                     
                 }
